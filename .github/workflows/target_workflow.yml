@@ -3,12 +3,18 @@ name: My Target Workflow
 on:
   repository_dispatch:
     types: [trigger-workflow]
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Extract Parameters
+        id: extract_params
+        run: |
+          echo "Service: ${{ github.event.client_payload.service }}"
+          echo "Version: ${{ github.event.client_payload.version }}"
+
       - name: Run a one-line script
         run: echo Hello, world!
 
@@ -17,3 +23,5 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+          echo "Service: ${{ github.event.client_payload.service }}"
+          echo "Version: ${{ github.event.client_payload.version }}"
